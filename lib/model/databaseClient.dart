@@ -36,6 +36,10 @@ class DatabaseClient{
     item.id = await maDatabase.insert('item',item.toMap());
     return item;
   }
+Future <int> delete(int id, String table)async{
+    Database maDatabase = await database;
+    return await maDatabase.delete(table, where: 'id = ?', whereArgs: [id]);
+}
 
   /*lecture des donnees*/
 
