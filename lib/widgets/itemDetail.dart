@@ -56,7 +56,7 @@ void initState() {
       new DonneesVides()
           : new GridView.builder(
           itemCount: articles.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
           itemBuilder: (context,i){
             Article article = articles[i];
             return new Card(
@@ -64,9 +64,12 @@ void initState() {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   new Text(article.nom),
-                  (article.image==null)?
-                      new Image.asset("image/no_image.png")
-                      : new Image.file(new File(article.image)),
+                  new Container(
+                    height: MediaQuery.of(context).size.height/2,
+                    child: (article.image==null)?
+                    new Image.asset("image/no_image.png")
+                        : new Image.file(new File(article.image)),
+                  ),
                       new Text((article.prix == null)?"Aucun prix renseigné": "Prix: ${article.prix}"),
                     new Text((article.magasin == null)?"Aucun magasin renseigné": "Magasin: ${article.magasin}")
                 ],
