@@ -11,7 +11,7 @@ class Item{
 
   Map<String,dynamic> toMap(){
     Map<String,dynamic> map = {
-      'nom': this.nom;
+      'nom': this.nom
     };
     if(id !=null){
       map['id']= this.id;
