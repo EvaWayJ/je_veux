@@ -11,8 +11,8 @@ class DatabaseClient{
     if(_database != null){
       return _database;
     } else {
-_database = await create();
-return _database;
+      _database = await create();
+      return _database;
     }
   }
 
@@ -35,5 +35,19 @@ return _database;
     Database maDatabase = await database;
     item.id = await maDatabase.insert('item',item.toMap());
     return item;
+  }
+
+  /*lecture des donnees*/
+
+  Future<List<Item>> allItem() async {
+    Database maDatabase = await database;
+    List<Map<String, dynamic>> resultat = await maDatabase.rawQuery('SELECT * FROM item');
+    List<Item> items = [];
+    resultat.forEach((map){
+      Item item = new Item();
+      item.fromMap(map);
+      items.add(item);
+    });
+    return items;
   }
 }
