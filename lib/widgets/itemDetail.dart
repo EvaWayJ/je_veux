@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jeveux/model/article.dart';
 import 'package:jeveux/model/item.dart';
+import 'package:jeveux/widgets/ajout_article.dart';
 import 'package:jeveux/widgets/donnees_vides.dart';
 
 class ItemDetail extends StatefulWidget{
@@ -26,7 +27,11 @@ class _ItemDetailState extends State<ItemDetail>{
       appBar: new AppBar(
         title: new Text(widget.item.nom),
         actions: <Widget>[
-          new FlatButton(onPressed: null, child: new Text('ajouter', style: new TextStyle(color:  Colors.white),))
+          new FlatButton(onPressed: (){
+            Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context){
+              return new Ajout(widget.item.id);
+            }));
+          }, child: new Text('ajouter', style: new TextStyle(color:  Colors.white),))
         ],),
       body: (articles == null || articles.length == 0)?
       new DonneesVides()

@@ -4,7 +4,7 @@ class Article {
   int item;
   var prix;
   String magasin;
-  String image
+  String image;
 
   Article();
 
