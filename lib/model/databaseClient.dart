@@ -27,6 +27,15 @@ class DatabaseClient{
     await db.execute('''
     CREATE TABLE item (id INTEGER PRIMARY KEY, nom TEXT NOT NULL)
     ''');
+    await db.execute('''
+    CREATE TABLE article
+    id INTEGER PRIMARY KEY,
+    nom TEXT NOT NULL,
+    item INTEGER,
+    prix TEXT,
+    magasin TEXT,
+    image TEXT
+    ''');
   }
 
   /*ECRITURE DES DONNEES*/
