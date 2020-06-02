@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:jeveux/model/article.dart';
 import 'package:jeveux/model/item.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -61,6 +62,15 @@ class DatabaseClient{
     return item;
   }
 
+  Future <Article> upsertArticle(Article article)async {
+    Database maDatabase = await database;
+     (article.id == null) ?
+      article.id = await maDatabase.insert('article', article.toMap())
+    :
+      await maDatabase.update(
+          'article', article.toMap(), where: 'id = ?', whereArgs: [article.id]);
+    return article;
+  }
 
 Future <int> delete(int id, String table)async{
     Database maDatabase = await database;
