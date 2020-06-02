@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jeveux/model/databaseClient.dart';
 import 'package:jeveux/model/item.dart';
 import 'package:jeveux/widgets/donnees_vides.dart';
+import 'package:jeveux/widgets/itemDetail.dart';
 
 class HomeController extends StatefulWidget {
   HomeController({Key key, this.title}) : super(key: key);
@@ -48,6 +49,11 @@ class _HomeControllerState extends State<HomeController> {
                       });
                     }),
                 leading: new IconButton(icon: new Icon(Icons.edit), onPressed: (() => ajouter(item))),
+                onTap: (){
+                  Navigator.push(context, new MaterialPageRoute(builder: (BuildContext buildContext){
+                    return new ItemDetail(item);
+                  }));
+                },
               );
             }
         ));
