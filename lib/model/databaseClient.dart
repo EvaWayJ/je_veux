@@ -29,13 +29,13 @@ class DatabaseClient{
     CREATE TABLE item (id INTEGER PRIMARY KEY, nom TEXT NOT NULL)
     ''');
     await db.execute('''
-    CREATE TABLE article
+    CREATE TABLE article (
     id INTEGER PRIMARY KEY,
     nom TEXT NOT NULL,
     item INTEGER,
     prix TEXT,
     magasin TEXT,
-    image TEXT
+    image TEXT)
     ''');
   }
 
