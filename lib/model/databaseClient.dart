@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:jeveux/model/item.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 class DatabaseClient{
@@ -9,7 +11,8 @@ class DatabaseClient{
     if(_database != null){
       return _database;
     } else {
-
+_database = await create();
+return _database;
     }
   }
 
@@ -24,5 +27,13 @@ class DatabaseClient{
     await db.execute('''
     CREATE TABLE item (id INTEGER PRIMARY KEY, nom TEXT NOT NULL)
     ''');
+  }
+
+  /*ECRITURE DES DONNEES*/
+
+  Future<Item> ajoutItem(Item item) async{
+    Database maDatabase = await database;
+    item.id = await maDatabase.insert('item',item.toMap());
+    return item;
   }
 }
