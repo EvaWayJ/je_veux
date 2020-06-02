@@ -28,7 +28,7 @@ class _HomeControllerState extends State<HomeController> {
     return Scaffold(
         appBar: AppBar(
           actions: <Widget>[
-            new FlatButton(onPressed: ajouter, child: new Text("Ajouter", style:new TextStyle(color: Colors.white)))
+            new FlatButton(onPressed:(() => ajouter(null)), child: new Text("Ajouter", style:new TextStyle(color: Colors.white)))
           ],
           title: Text(widget.title),
         ),
@@ -44,16 +44,16 @@ class _HomeControllerState extends State<HomeController> {
                     icon: new Icon(Icons.delete),
                     onPressed: (){
                       DatabaseClient().delete(item.id, 'item').then((int){
-                        print("L'int récupéré est : $int");
                         recuperer();
                       });
                     }),
+                leading: new IconButton(icon: new Icon(Icons.edit), onPressed: (() => ajouter(item))),
               );
             }
         ));
   }
 
-  Future<Null> ajouter()async{
+  Future<Null> ajouter(Item item)async{
     await showDialog(
         context: context,
         barrierDismissible: false,
@@ -63,7 +63,7 @@ class _HomeControllerState extends State<HomeController> {
             content: new TextField(
               decoration: new InputDecoration(
                   labelText: "liste:",
-                  hintText: "ex: mes prochains jeu video"
+                  hintText: (item == null)?"ex: mes prochains jeu video": item.nom
               ),
               onChanged: (String str){
                 nouvelListe=str;
@@ -73,10 +73,14 @@ class _HomeControllerState extends State<HomeController> {
               new FlatButton(onPressed: (()=> Navigator.pop(buildContext)), child: new Text('Annuler')),
               new FlatButton(onPressed: (){
                 if(nouvelListe != null){
-                  Map<String, dynamic> map ={'nom': nouvelListe};
-                  Item item = new Item();
-                  item.fromMap(map);
-                  DatabaseClient().ajoutItem(item).then((i) => recuperer());
+                  if(item == null){
+                    item = new Item();
+                    Map<String, dynamic> map ={'nom': nouvelListe};
+                    item.fromMap(map);
+                  }else{
+                    item.nom = nouvelListe;
+                  }
+                  DatabaseClient().upsertItem(item).then((i) => recuperer());
                   nouvelListe = null;
                 }
                 Navigator.pop(buildContext);
